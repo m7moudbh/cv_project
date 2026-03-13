@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.cv_project"
+    namespace = "com.banihani.cvapp"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
