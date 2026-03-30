@@ -9,13 +9,10 @@ class AuthService {
   static const String _rememberMeKey = 'remember_me';
   static const String _savedEmailKey = 'saved_email';
 
-  // Stream of auth state changes
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
-  // Current user
   User? get currentUser => _auth.currentUser;
 
-  // ─── Register ───────────────────────────────────────────────────────────────
   Future<UserCredential> registerWithEmail({
     required String email,
     required String password,
@@ -28,10 +25,8 @@ class AuthService {
         password: password,
       );
 
-      // Update display name
       await credential.user?.updateDisplayName(fullName);
 
-      // Save user profile to Firestore
       await _firestore
           .collection('users')
           .doc(credential.user!.uid)
@@ -61,7 +56,6 @@ class AuthService {
     }
   }
 
-  // ─── Login ──────────────────────────────────────────────────────────────────
   Future<UserCredential> loginWithEmail({
     required String email,
     required String password,
@@ -73,7 +67,6 @@ class AuthService {
         password: password,
       );
 
-      // Handle Remember Me
       await _handleRememberMe(email: email, remember: rememberMe);
 
       return credential;
@@ -82,33 +75,26 @@ class AuthService {
     }
   }
 
-  // ─── Logout ─────────────────────────────────────────────────────────────────
   Future<void> signOut() async {
     await _auth.signOut();
   }
 
-  // ─── Delete Account ──────────────────────────────────────────────────────────
-  // Firebase requires recent login before deletion — we re-authenticate first
   Future<void> deleteAccount(String password) async {
     final user = _auth.currentUser;
     if (user == null) throw 'No user signed in';
 
     try {
-      // Step 1: Re-authenticate (required by Firebase for sensitive operations)
       final credential = EmailAuthProvider.credential(
         email: user.email!,
         password: password,
       );
       await user.reauthenticateWithCredential(credential);
 
-      // Step 2: Delete Firestore data first
       await _firestore.collection('users').doc(user.uid).delete();
 
-      // Step 3: Clear saved login preferences
       final prefs = await SharedPreferences.getInstance();
       await prefs.clear();
 
-      // Step 4: Delete Firebase Auth account
       await user.delete();
 
     } on FirebaseAuthException catch (e) {
@@ -118,7 +104,6 @@ class AuthService {
     }
   }
 
-  // ─── Password Reset ──────────────────────────────────────────────────────────
   Future<void> sendPasswordResetEmail(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email.trim());
@@ -127,7 +112,6 @@ class AuthService {
     }
   }
 
-  // ─── Remember Me ────────────────────────────────────────────────────────────
   Future<void> _handleRememberMe({
     required String email,
     required bool remember,
@@ -150,7 +134,6 @@ class AuthService {
     };
   }
 
-  // ─── Firestore User Data ─────────────────────────────────────────────────────
   Future<Map<String, dynamic>?> getUserData(String uid) async {
     try {
       final doc = await _firestore.collection('users').doc(uid).get();
@@ -166,7 +149,6 @@ class AuthService {
     await _firestore.collection('users').doc(uid).update(data);
   }
 
-  // ─── Error Handler ───────────────────────────────────────────────────────────
   String _handleAuthError(FirebaseAuthException e) {
     switch (e.code) {
       case 'weak-password':

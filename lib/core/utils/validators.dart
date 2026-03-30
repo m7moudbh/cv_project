@@ -34,7 +34,7 @@ class Validators {
   }
 
   static String? phone(String? value) {
-    if (value == null || value.isEmpty) return null; // optional
+    if (value == null || value.isEmpty) return null; //optional
     final regex = RegExp(r'^\+?[1-9]\d{7,14}$');
     if (!regex.hasMatch(value.replaceAll(' ', '')))
       return 'Enter a valid phone number';

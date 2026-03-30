@@ -57,7 +57,6 @@ class _SplashScreenState extends State<SplashScreen>
     await Future.delayed(const Duration(milliseconds: 600));
     _textController.forward();
 
-    // Wait for animation AND auth state — whichever takes longer
     await Future.wait([
       Future.delayed(const Duration(milliseconds: 1200)),
       _waitForAuthState(),
@@ -66,10 +65,8 @@ class _SplashScreenState extends State<SplashScreen>
     _navigate();
   }
 
-  // Wait until Firebase Auth finishes restoring the session
   Future<void> _waitForAuthState() async {
     final authProvider = context.read<AuthProvider>();
-    // If still in initial state, wait for it to resolve
     if (authProvider.status == AuthStatus.initial) {
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
@@ -116,7 +113,6 @@ class _SplashScreenState extends State<SplashScreen>
       backgroundColor: AppColors.primary,
       body: Stack(
         children: [
-          // Background decoration
           Positioned(
             top: -100,
             right: -100,
@@ -152,12 +148,10 @@ class _SplashScreenState extends State<SplashScreen>
             ),
           ),
 
-          // Center content
           Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Logo
                 AnimatedBuilder(
                   animation: _logoController,
                   builder: (_, __) => Opacity(
@@ -190,7 +184,6 @@ class _SplashScreenState extends State<SplashScreen>
 
                 const SizedBox(height: 28),
 
-                // Text
                 AnimatedBuilder(
                   animation: _textController,
                   builder: (_, __) => Opacity(
@@ -226,7 +219,6 @@ class _SplashScreenState extends State<SplashScreen>
             ),
           ),
 
-          // Loading indicator at bottom
           Positioned(
             bottom: 48,
             left: 0,

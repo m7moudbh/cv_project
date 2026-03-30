@@ -173,9 +173,9 @@ class _EditProfileScreenState extends State<EditProfileScreen>
       body: TabBarView(
         controller: _tabController,
         children: [
-          // Tab 1: Profile
+          //Profile
           _buildProfileTab(),
-          // Tab 2: Experience
+          //Experience
           _buildDynamicTab(
             items: _experience,
             title: 'Work Experience',
@@ -194,7 +194,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
             buildSubtitle: (e) => '${e['company'] ?? ''}  •  ${e['period'] ?? ''}',
             buildDesc: (e) => e['description'] ?? '',
           ),
-          // Tab 3: Education
+          //Education
           _buildDynamicTab(
             items: _education,
             title: 'Education',
@@ -213,7 +213,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
             buildSubtitle: (e) => e['institution'] ?? '',
             buildDesc: (e) => '${e['period'] ?? ''}${(e['gpa'] as String?)?.isNotEmpty == true ? '  •  GPA: ${e['gpa']}' : ''}',
           ),
-          // Tab 4: Projects
+          //Projects
           _buildDynamicTab(
             items: _projects,
             title: 'Projects',
@@ -237,7 +237,6 @@ class _EditProfileScreenState extends State<EditProfileScreen>
     );
   }
 
-  // ─── Confirm Delete Dialog ────────────────────────────────────────────────
   void _confirmDelete(BuildContext ctx, String itemName, VoidCallback onConfirm) {
     showDialog(
       context: ctx,
@@ -297,7 +296,6 @@ class _EditProfileScreenState extends State<EditProfileScreen>
     );
   }
 
-  // ─── Profile Tab ─────────────────────────────────────────────────────────────
   Widget _buildProfileTab() {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
@@ -412,7 +410,6 @@ class _EditProfileScreenState extends State<EditProfileScreen>
     );
   }
 
-  // ─── Dynamic List Tab Builder ─────────────────────────────────────────────────
   Widget _buildDynamicTab({
     required List<Map<String, dynamic>> items,
     required String title, required String subtitle, required String emptyMsg,
@@ -425,7 +422,6 @@ class _EditProfileScreenState extends State<EditProfileScreen>
     required String Function(Map<String, dynamic>) buildDesc,
   }) {
     return Column(children: [
-      // Header
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         decoration: const BoxDecoration(
@@ -469,7 +465,6 @@ class _EditProfileScreenState extends State<EditProfileScreen>
         ]),
       ),
 
-      // Content
       Expanded(
         child: items.isEmpty
             ? Center(
@@ -584,7 +579,6 @@ class _EditProfileScreenState extends State<EditProfileScreen>
         fontSize: 15, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
   ]);
 
-  // ─── Dialogs ──────────────────────────────────────────────────────────────────
   void _showExperienceDialog(BuildContext ctx, Map<String, dynamic>? data, int idx) {
     final t = TextEditingController(text: data?['title'] ?? '');
     final c = TextEditingController(text: data?['company'] ?? '');

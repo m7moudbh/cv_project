@@ -52,7 +52,6 @@ class _RegisterScreenState extends State<RegisterScreen>
 
   void _nextStep() {
     if (_currentStep == 0) {
-      // Validate name fields
       if (_nameController.text.trim().isEmpty) {
         _showError('Please enter your full name');
         return;
@@ -112,7 +111,6 @@ class _RegisterScreenState extends State<RegisterScreen>
       backgroundColor: AppColors.primary,
       body: Stack(
         children: [
-          // Background blobs
           Positioned(
             top: -80,
             left: -60,
@@ -156,7 +154,6 @@ class _RegisterScreenState extends State<RegisterScreen>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Back button
                       GestureDetector(
                         onTap: _currentStep == 1
                             ? _prevStep
@@ -179,7 +176,6 @@ class _RegisterScreenState extends State<RegisterScreen>
 
                       const SizedBox(height: 32),
 
-                      // Progress indicator
                       Row(
                         children: [
                           _buildStepDot(0),
@@ -202,7 +198,6 @@ class _RegisterScreenState extends State<RegisterScreen>
 
                       const SizedBox(height: 32),
 
-                      // Title
                       Text(
                         _currentStep == 0
                             ? 'Create Account'
@@ -227,7 +222,6 @@ class _RegisterScreenState extends State<RegisterScreen>
 
                       const SizedBox(height: 40),
 
-                      // Step 0: Personal Info
                       if (_currentStep == 0) ...[
                         CVTextField(
                           label: 'Full Name',
@@ -253,7 +247,6 @@ class _RegisterScreenState extends State<RegisterScreen>
                         ),
                       ],
 
-                      // Step 1: Credentials
                       if (_currentStep == 1) ...[
                         CVTextField(
                           label: 'Email Address',
@@ -273,7 +266,6 @@ class _RegisterScreenState extends State<RegisterScreen>
                           validator: Validators.password,
                         ),
                         const SizedBox(height: 12),
-                        // Password strength hint
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
@@ -312,7 +304,6 @@ class _RegisterScreenState extends State<RegisterScreen>
 
                         const SizedBox(height: 16),
 
-                        // Terms text
                         RichText(
                           text: TextSpan(
                             style: GoogleFonts.dmSans(
@@ -338,7 +329,6 @@ class _RegisterScreenState extends State<RegisterScreen>
 
                         const SizedBox(height: 32),
 
-                        // Error
                         Consumer<AuthProvider>(
                           builder: (_, auth, __) =>
                           auth.errorMessage != null
@@ -386,7 +376,6 @@ class _RegisterScreenState extends State<RegisterScreen>
 
                       const SizedBox(height: 28),
 
-                      // Login link
                       Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

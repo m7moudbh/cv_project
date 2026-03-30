@@ -40,7 +40,6 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
         _uploadProgress = 0;
       });
 
-      // Upload to Cloudinary with progress callback
       final url = await _storageService.uploadProfilePhoto(
         file,
         onProgress: (p) {
@@ -48,7 +47,6 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
         },
       );
 
-      // Save URL to Firestore
       await context.read<AuthProvider>().updateUserData({'photoUrl': url});
 
       if (mounted) {
@@ -186,7 +184,6 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
           : null,
       child: Stack(
         children: [
-          // Photo container
           Container(
             width: size,
             height: size,
@@ -203,7 +200,6 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
             ),
           ),
 
-          // Upload progress overlay
           if (_isUploading)
             Positioned.fill(
               child: Container(
@@ -241,7 +237,6 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
               ),
             ),
 
-          // Edit badge
           if (widget.editable && !_isUploading)
             Positioned(
               bottom: 0,
@@ -265,12 +260,10 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
 
   Widget _buildImageContent(
       String photoUrl, String name, double size, bool isUploading) {
-    // Show local file while uploading
     if (_localImage != null) {
       return Image.file(_localImage!, fit: BoxFit.cover);
     }
 
-    // Show network image
     if (photoUrl.isNotEmpty) {
       return CachedNetworkImage(
         imageUrl: photoUrl,
@@ -280,7 +273,6 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
       );
     }
 
-    // Fallback: initial letter
     return _buildInitialAvatar(name, size);
   }
 

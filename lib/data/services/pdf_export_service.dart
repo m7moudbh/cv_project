@@ -8,7 +8,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class PdfExportService {
-  // Colors
   static const _navy = PdfColor.fromInt(0xFF0A0E1A);
   static const _gold = PdfColor.fromInt(0xFFFFB800);
   static const _white = PdfColors.white;
@@ -55,7 +54,6 @@ class PdfExportService {
     final education = List<Map<String, dynamic>>.from(d['education'] ?? []);
     final projects = List<Map<String, dynamic>>.from(d['projects'] ?? []);
 
-    // Try to load profile photo from URL
     pw.MemoryImage? profileImage;
     if (photoUrl.isNotEmpty) {
       try {
@@ -65,7 +63,6 @@ class PdfExportService {
           profileImage = pw.MemoryImage(response.bodyBytes);
         }
       } catch (_) {
-        // Photo failed to load — fall back to initial letter
       }
     }
 
@@ -74,18 +71,15 @@ class PdfExportService {
         pageFormat: PdfPageFormat.a4,
         margin: pw.EdgeInsets.zero,
         build: (ctx) => [
-          // Header
           _header(name, jobTitle, email, phone, location, github, profileImage),
           pw.SizedBox(height: 0),
 
-          // Body
           pw.Padding(
             padding: const pw.EdgeInsets.symmetric(horizontal: 32, vertical: 24),
             child: pw.Column(
               crossAxisAlignment: pw.CrossAxisAlignment.start,
               children: [
 
-                // About
                 if (bio.isNotEmpty) ...[
                   _section('ABOUT ME'),
                   pw.SizedBox(height: 8),
@@ -103,12 +97,10 @@ class PdfExportService {
                   pw.SizedBox(height: 22),
                 ],
 
-                // Two columns
                 pw.Row(
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
 
-                    // LEFT (62%) — Experience + Education
                     pw.Expanded(
                       flex: 62,
                       child: pw.Column(
@@ -137,7 +129,6 @@ class PdfExportService {
 
                     pw.SizedBox(width: 22),
 
-                    // RIGHT (38%) — Skills + Projects + Links
                     pw.Expanded(
                       flex: 38,
                       child: pw.Column(
@@ -161,7 +152,6 @@ class PdfExportService {
                             pw.SizedBox(height: 22),
                           ],
 
-                          // Links
                           if (linkedIn.isNotEmpty || website.isNotEmpty) ...[
                             _section('LINKS'),
                             pw.SizedBox(height: 10),
@@ -200,7 +190,6 @@ class PdfExportService {
     return pdf.save();
   }
 
-  // Header
   pw.Widget _header(String name, String jobTitle, String email,
       String phone, String location, String github,
       pw.MemoryImage? profileImage) {
@@ -210,7 +199,6 @@ class PdfExportService {
       child: pw.Row(
         crossAxisAlignment: pw.CrossAxisAlignment.center,
         children: [
-          //  Profile photo or initial letter
           pw.Container(
             width: 68,
             height: 68,
@@ -238,7 +226,6 @@ class PdfExportService {
           ),
           pw.SizedBox(width: 20),
 
-          // Name + title
           pw.Expanded(
             child: pw.Column(
               crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -263,7 +250,6 @@ class PdfExportService {
             ),
           ),
 
-          //  Contact info
           pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.end,
             children: [
@@ -279,7 +265,6 @@ class PdfExportService {
     );
   }
 
-  // Section Title
   pw.Widget _section(String title) {
     return pw.Row(children: [
       pw.Container(width: 3, height: 13, color: _gold),
@@ -290,7 +275,6 @@ class PdfExportService {
     ]);
   }
 
-  //Experience Block
   pw.Widget _expBlock(String title, String company,
       String period, String desc) {
     return pw.Container(
@@ -324,7 +308,6 @@ class PdfExportService {
     );
   }
 
-  //  Education Block
   pw.Widget _eduBlock(String degree, String institution,
       String period, String gpa) {
     return pw.Container(
@@ -367,7 +350,6 @@ class PdfExportService {
     );
   }
 
-  // Skills Grid — 2 per row
   List<pw.Widget> _buildSkillsGrid(List<String> skills) {
     final rows = <pw.Widget>[];
     for (int i = 0; i < skills.length; i += 2) {
@@ -407,7 +389,6 @@ class PdfExportService {
     );
   }
 
-  //  Project Block
   pw.Widget _projectBlock(String title, String desc, List<String> tech) {
     return pw.Container(
       margin: const pw.EdgeInsets.only(bottom: 10),
@@ -434,7 +415,6 @@ class PdfExportService {
     );
   }
 
-  //  Link Row
   pw.Widget _linkRow(String label, String url, PdfColor color) {
     return pw.Padding(
       padding: const pw.EdgeInsets.only(bottom: 5),

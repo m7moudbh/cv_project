@@ -6,7 +6,7 @@ import '../../data/services/auth_provider.dart';
 import '../../data/services/pdf_export_service.dart';
 
 class ExportCVButton extends StatefulWidget {
-  final bool compact; // compact = icon only (for app bar)
+  final bool compact;
 
   const ExportCVButton({super.key, this.compact = false});
 
@@ -75,7 +75,6 @@ class _ExportCVButtonState extends State<ExportCVButton> {
               ),
               const SizedBox(height: 20),
 
-              // Icon
               Container(
                 width: 60,
                 height: 60,
@@ -111,7 +110,6 @@ class _ExportCVButtonState extends State<ExportCVButton> {
 
               const SizedBox(height: 24),
 
-              // Preview button
               _ExportOption(
                 icon: Icons.preview_rounded,
                 title: 'Preview PDF',
@@ -125,7 +123,6 @@ class _ExportCVButtonState extends State<ExportCVButton> {
 
               const SizedBox(height: 12),
 
-              // Export & Share button
               _ExportOption(
                 icon: Icons.share_rounded,
                 title: 'Export & Share',
@@ -139,7 +136,6 @@ class _ExportCVButtonState extends State<ExportCVButton> {
 
               const SizedBox(height: 16),
 
-              // Info note
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
@@ -173,7 +169,6 @@ class _ExportCVButtonState extends State<ExportCVButton> {
   @override
   Widget build(BuildContext context) {
     if (widget.compact) {
-      // App bar icon button
       return GestureDetector(
         onTap: _isExporting ? null : _showExportSheet,
         child: Container(
@@ -198,7 +193,6 @@ class _ExportCVButtonState extends State<ExportCVButton> {
       );
     }
 
-    // Full button
     return GestureDetector(
       onTap: _isExporting ? null : _showExportSheet,
       child: Container(

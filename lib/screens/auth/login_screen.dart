@@ -125,7 +125,6 @@ class _LoginScreenState extends State<LoginScreen>
       backgroundColor: AppColors.primary,
       body: Stack(
         children: [
-          // Background blobs
           Positioned(
             top: -60,
             right: -80,
@@ -169,7 +168,6 @@ class _LoginScreenState extends State<LoginScreen>
                   children: [
                     const SizedBox(height: 20),
 
-                    // Logo & Title
                     _animated(
                       0,
                       Column(
@@ -218,7 +216,6 @@ class _LoginScreenState extends State<LoginScreen>
 
                     const SizedBox(height: 48),
 
-                    // Email field
                     _animated(
                       1,
                       CVTextField(
@@ -234,7 +231,6 @@ class _LoginScreenState extends State<LoginScreen>
 
                     const SizedBox(height: 20),
 
-                    // Password field
                     _animated(
                       2,
                       CVTextField(
@@ -252,7 +248,6 @@ class _LoginScreenState extends State<LoginScreen>
 
                     const SizedBox(height: 16),
 
-                    // Remember Me + Forgot Password
                     _animated(
                       3,
                       Row(
@@ -317,7 +312,6 @@ class _LoginScreenState extends State<LoginScreen>
 
                     const SizedBox(height: 32),
 
-                    // Error Message
                     Consumer<AuthProvider>(
                       builder: (_, auth, __) => auth.errorMessage != null
                           ? Container(
@@ -349,7 +343,6 @@ class _LoginScreenState extends State<LoginScreen>
                           : const SizedBox.shrink(),
                     ),
 
-                    // Login Button
                     _animated(
                       4,
                       Consumer<AuthProvider>(
@@ -363,7 +356,6 @@ class _LoginScreenState extends State<LoginScreen>
 
                     const SizedBox(height: 24),
 
-                    // Divider
                     Row(
                       children: [
                         const Expanded(
@@ -385,7 +377,6 @@ class _LoginScreenState extends State<LoginScreen>
 
                     const SizedBox(height: 24),
 
-                    // Register Link
                     Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

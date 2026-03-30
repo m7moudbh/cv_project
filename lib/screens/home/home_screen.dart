@@ -81,9 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// TAB 1 — CV / Profile
-// ══════════════════════════════════════════════════════════════════════════════
+
 class _CVTab extends StatelessWidget {
   const _CVTab();
 
@@ -129,7 +127,7 @@ class _CVTab extends StatelessWidget {
           sliver: SliverList(
             delegate: SliverChildListDelegate([
 
-              // ── Bio ──────────────────────────────────────────────────────
+              //Bio
               if (bio.isNotEmpty) ...[
                 const SectionHeader(title: 'About Me'),
                 const SizedBox(height: 12),
@@ -139,7 +137,7 @@ class _CVTab extends StatelessWidget {
                 const SizedBox(height: 28),
               ],
 
-              // ── Skills ────────────────────────────────────────────────────
+              //Skills
               if (skills.isNotEmpty) ...[
                 const SectionHeader(title: 'Skills'),
                 const SizedBox(height: 14),
@@ -152,7 +150,7 @@ class _CVTab extends StatelessWidget {
                 const SizedBox(height: 28),
               ],
 
-              // ── Experience ────────────────────────────────────────────────
+              //Experience
               if (experience.isNotEmpty) ...[
                 SectionHeader(
                   title: 'Experience',
@@ -166,7 +164,7 @@ class _CVTab extends StatelessWidget {
                 const SizedBox(height: 28),
               ],
 
-              // ── Education ─────────────────────────────────────────────────
+              //Education
               if (education.isNotEmpty) ...[
                 SectionHeader(
                   title: 'Education',
@@ -180,7 +178,7 @@ class _CVTab extends StatelessWidget {
                 const SizedBox(height: 28),
               ],
 
-              // ── Empty state ───────────────────────────────────────────────
+              //Empty state
               if (bio.isEmpty && skills.isEmpty &&
                   experience.isEmpty && education.isEmpty)
                 _EmptyProfileCard(),
@@ -294,7 +292,6 @@ class _CVTab extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Warning message
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
@@ -326,7 +323,6 @@ class _CVTab extends StatelessWidget {
                   style: GoogleFonts.dmSans(
                       fontSize: 13, color: AppColors.textSecondary)),
               const SizedBox(height: 10),
-              // Password field
               StatefulBuilder(
                 builder: (_, setObscure) => TextField(
                   controller: passwordController,
@@ -453,7 +449,6 @@ class _CVTab extends StatelessWidget {
   }
 }
 
-// ─── Skill Chip ───────────────────────────────────────────────────────────────
 class _SkillChip extends StatelessWidget {
   final String skill;
   const _SkillChip({required this.skill});
@@ -479,7 +474,7 @@ class _SkillChip extends StatelessWidget {
   }
 }
 
-// ─── Experience Card ──────────────────────────────────────────────────────────
+
 class _ExperienceCard extends StatelessWidget {
   final Map<String, dynamic> data;
   const _ExperienceCard({required this.data});
@@ -515,7 +510,6 @@ class _ExperienceCard extends StatelessWidget {
   }
 }
 
-// ─── Education Card ───────────────────────────────────────────────────────────
 class _EducationCard extends StatelessWidget {
   final Map<String, dynamic> data;
   const _EducationCard({required this.data});
@@ -564,7 +558,6 @@ class _EducationCard extends StatelessWidget {
   }
 }
 
-// ─── Empty Profile State ──────────────────────────────────────────────────────
 class _EmptyProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -609,9 +602,7 @@ class _EmptyProfileCard extends StatelessWidget {
   }
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// TAB 2 — Portfolio (from Firestore)
-// ══════════════════════════════════════════════════════════════════════════════
+
 class _PortfolioTab extends StatelessWidget {
   const _PortfolioTab();
 
@@ -649,7 +640,6 @@ class _PortfolioTab extends StatelessWidget {
           sliver: SliverList(
             delegate: SliverChildListDelegate([
 
-              // Stats row
               Row(children: [
                 _StatCard(value: '${projects.length}', label: 'Projects'),
                 const SizedBox(width: 10),
@@ -659,7 +649,7 @@ class _PortfolioTab extends StatelessWidget {
               ]),
               const SizedBox(height: 28),
 
-              // Projects
+              //Projects
               if (projects.isNotEmpty) ...[
                 SectionHeader(
                     title: 'Projects',
@@ -751,7 +741,7 @@ class _ProjectCard extends StatelessWidget {
                 fontSize: 15, fontWeight: FontWeight.w600,
                 color: AppColors.textPrimary)),
           ),
-          // Links
+          //Links
           if (github.isNotEmpty)
             _linkBtn(Icons.code_rounded, AppColors.textSecondary, github),
           if (liveUrl.isNotEmpty) ...[
@@ -803,17 +793,13 @@ class _ProjectCard extends StatelessWidget {
   }
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// TAB 3 — Contact (fully working)
-// ══════════════════════════════════════════════════════════════════════════════
+
 class _ContactTab extends StatelessWidget {
   const _ContactTab();
 
-  // ─── Launch URL with error handling ────────────────────────────────────────
   Future<void> _launch(BuildContext context, String url) async {
     try {
       final uri = Uri.parse(url);
-      // mailto: and tel: need externalApplication mode
       final mode = (url.startsWith('mailto:') || url.startsWith('tel:'))
           ? LaunchMode.externalApplication
           : LaunchMode.externalApplication;
@@ -828,7 +814,6 @@ class _ContactTab extends StatelessWidget {
     }
   }
 
-  // ─── Copy to clipboard ─────────────────────────────────────────────────────
   void _copy(BuildContext context, String value, String label) {
     Clipboard.setData(ClipboardData(text: value));
     _showSnack(context, '$label copied to clipboard!', AppColors.success);
@@ -857,7 +842,6 @@ class _ContactTab extends StatelessWidget {
     final github = d['github'] as String? ?? '';
     final name = d['fullName'] as String? ?? 'there';
 
-    // Check if contact info is complete
     final hasContact = email.isNotEmpty || phone.isNotEmpty;
     final hasSocial = linkedIn.isNotEmpty || github.isNotEmpty;
 
@@ -871,7 +855,6 @@ class _ContactTab extends StatelessWidget {
               fontSize: 22, fontWeight: FontWeight.w700,
               color: AppColors.textPrimary)),
           actions: [
-            // Quick action: go to edit if info missing
             if (!hasContact || !hasSocial)
               TextButton.icon(
                 onPressed: () => Navigator.push(context,
@@ -891,7 +874,6 @@ class _ContactTab extends StatelessWidget {
           sliver: SliverList(
             delegate: SliverChildListDelegate([
 
-              // ── Intro Banner ───────────────────────────────────────────
               Container(
                 padding: const EdgeInsets.all(22),
                 decoration: BoxDecoration(
@@ -945,7 +927,6 @@ class _ContactTab extends StatelessWidget {
                     ),
                     if (email.isNotEmpty) ...[
                       const SizedBox(height: 18),
-                      // Main CTA button — actually works
                       GoldButton(
                         label: 'Send Me an Email',
                         icon: Icons.send_rounded,
@@ -958,7 +939,6 @@ class _ContactTab extends StatelessWidget {
 
               const SizedBox(height: 28),
 
-              // ── Contact Details ────────────────────────────────────────
               if (hasContact) ...[
                 const SectionHeader(
                   title: 'Contact Details',
@@ -1006,7 +986,6 @@ class _ContactTab extends StatelessWidget {
 
                 const SizedBox(height: 28),
               ] else ...[
-                // Empty contact state with button to add
                 _AddInfoCard(
                   icon: Icons.contact_phone_rounded,
                   title: 'No Contact Info Added',
@@ -1019,7 +998,7 @@ class _ContactTab extends StatelessWidget {
                 const SizedBox(height: 28),
               ],
 
-              // ── Social Links ───────────────────────────────────────────
+              //Social Links
               const SectionHeader(
                 title: 'Social Links',
                 subtitle: 'Tap to open profile',
@@ -1085,7 +1064,6 @@ class _ContactTab extends StatelessWidget {
   }
 }
 
-// ─── Action Row — tap opens, long press copies ────────────────────────────────
 class _ActionRow extends StatelessWidget {
   final IconData icon;
   final String label, value, actionLabel;
@@ -1119,7 +1097,6 @@ class _ActionRow extends StatelessWidget {
           border: Border.all(color: AppColors.border),
         ),
         child: Row(children: [
-          // Icon
           Container(
             width: 44, height: 44,
             decoration: BoxDecoration(
@@ -1131,7 +1108,6 @@ class _ActionRow extends StatelessWidget {
           ),
           const SizedBox(width: 12),
 
-          // Text
           Expanded(child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1145,7 +1121,6 @@ class _ActionRow extends StatelessWidget {
             ],
           )),
 
-          // Action button — clearly shows what happens on tap
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
             decoration: BoxDecoration(
@@ -1166,7 +1141,6 @@ class _ActionRow extends StatelessWidget {
   }
 }
 
-// ─── Add Info Card — shown when data is missing ───────────────────────────────
 class _AddInfoCard extends StatelessWidget {
   final IconData icon;
   final String title, subtitle;
@@ -1234,7 +1208,6 @@ class _AddInfoCard extends StatelessWidget {
   }
 }
 
-// ─── Shared Empty Section ─────────────────────────────────────────────────────
 class _EmptySection extends StatelessWidget {
   final IconData icon;
   final String title, subtitle;

@@ -40,7 +40,6 @@ class AuthProvider extends ChangeNotifier {
     if (_user == null) return;
     _userData = await _authService.getUserData(_user!.uid);
 
-    // Retry once if Firestore returned null (race condition on new accounts)
     if (_userData == null) {
       await Future.delayed(const Duration(milliseconds: 500));
       _userData = await _authService.getUserData(_user!.uid);
@@ -65,7 +64,6 @@ class AuthProvider extends ChangeNotifier {
         rememberMe: rememberMe,
       );
 
-      // Explicitly load user data after login
       await _loadUserData();
 
       return true;
@@ -95,7 +93,6 @@ class AuthProvider extends ChangeNotifier {
         jobTitle: jobTitle,
       );
 
-      // Wait for Firestore to finish writing before loading
       await Future.delayed(const Duration(milliseconds: 800));
       await _loadUserData();
 

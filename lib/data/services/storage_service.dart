@@ -5,19 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 
 class StorageService {
-  // ─────────────────────────────────────────────────────────────────────────
-  // 🔧 CONFIGURATION — replace with your Cloudinary values
-  // cloudName   : found in Cloudinary Dashboard → Cloud Name
-  // uploadPreset: Settings → Upload → Upload Presets → create Unsigned preset
-  // ─────────────────────────────────────────────────────────────────────────
   static const String _cloudName   = 'dejeqw5q5';
   static const String _uploadPreset = 'cv_app_uploads';
-  // ─────────────────────────────────────────────────────────────────────────
+
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final ImagePicker  _picker = ImagePicker();
 
-  // ── Pick image from gallery or camera ─────────────────────────────────────
   Future<File?> pickImage({bool fromCamera = false}) async {
     try {
       final XFile? picked = await _picker.pickImage(
@@ -33,7 +27,6 @@ class StorageService {
     }
   }
 
-  // ── Upload to Cloudinary & return download URL ────────────────────────────
   Future<String> uploadProfilePhoto(
       File imageFile, {
         void Function(double progress)? onProgress,
@@ -49,8 +42,6 @@ class StorageService {
 
     final request = http.MultipartRequest('POST', uri);
     request.fields['upload_preset'] = _uploadPreset;
-    // Note: public_id with folder slash can cause 400 on unsigned presets
-    // Use a simple flat id instead
     request.fields['public_id'] = 'profile_$uid';
     request.files.add(
       await http.MultipartFile.fromPath(
@@ -67,7 +58,6 @@ class StorageService {
     final body = await streamed.stream.bytesToString();
 
     if (streamed.statusCode != 200) {
-      // Show the actual Cloudinary error message
       String errorMsg = 'Upload failed (${streamed.statusCode})';
       try {
         final err = jsonDecode(body) as Map<String, dynamic>;
@@ -86,7 +76,6 @@ class StorageService {
     return url;
   }
 
-  // ── Stream-based upload for progress indicator ────────────────────────────
   Stream<double> uploadProfilePhotoWithProgress(File imageFile) async* {
     yield 0.05;
 
@@ -95,15 +84,13 @@ class StorageService {
 
     await uploadProfilePhoto(
       imageFile,
-      onProgress: (_) {}, // handled inside
+      onProgress: (_) {},
     ).then((u) => url = u).catchError((e) => error = e.toString());
 
     if (error != null) throw error!;
 
     yield 1.0;
   }
-
-  // ── Delete — Cloudinary free tier doesn't allow delete via unsigned ───────
 
   Future<void> deleteProfilePhoto() async {
     try {
